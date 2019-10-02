@@ -1,0 +1,14 @@
+[package]
+name = "zerotier"
+edition = "2018"
+version = "0.0.0"
+
+[dependencies]
+arrayref = "0.3.5"
+byteorder = "1.1.0"
+ed25519-dalek = "1.0.0-pre.1"
+failure = "0.1.5"
+hex = "0.4.0"
+salsa20 = "0.2.0"
+sha2 = "0.8.0"
+x25519-dalek = "0.5.2"
