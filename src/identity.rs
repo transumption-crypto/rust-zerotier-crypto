@@ -1,7 +1,8 @@
 use crate::{Address, InternalError, PublicKey, SecretKey};
 
+use ed25519_dalek::Keypair;
 use failure::Error;
-use std::convert::TryFrom;
+use std::convert::{TryFrom, TryInto};
 
 /// Combination of [`Address`](struct.Address.html), [`PublicKey`](struct.PublicKey) and optionally
 /// [`SecretKey`](struct.SecretKey.html).
@@ -44,6 +45,17 @@ impl TryFrom<&str> for Identity {
                 Some(secret_key) => Some(SecretKey::try_from(hex::decode(secret_key)?.as_slice())?),
                 None => None
             }
+        })
+    }
+}
+
+impl TryInto<Keypair> for Identity {
+    type Error = Error;
+
+    fn try_into(self) -> Result<Keypair, Error> {
+        Ok(Keypair {
+            public: self.public_key.ed,
+            secret: self.secret_key.unwrap().ed
         })
     }
 }
