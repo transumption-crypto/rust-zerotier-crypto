@@ -2,6 +2,7 @@ use crate::{InternalError, PublicKey, PUBLIC_KEY_LENGTH};
 
 use arrayref::{array_mut_ref, array_ref};
 use failure::Error;
+use serde::*;
 use std::{convert::TryFrom, mem};
 
 use salsa20::stream_cipher::generic_array::GenericArray;
@@ -27,6 +28,15 @@ const U64_SIZE: usize = mem::size_of::<u64>();
 /// - every byte of address is `0x00`
 #[derive(Clone, Debug, PartialEq)]
 pub struct Address([u8; ADDRESS_LENGTH]);
+
+impl Serialize for Address {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(&hex::encode(self.0))
+    }
+}
 
 /// Ad-hoc memory-hard hash function used to derive address from ZeroTier public key.
 fn memory_hard_hash(public_key: &PublicKey) -> Result<[u8; BLOCK_SIZE], Error> {
