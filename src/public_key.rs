@@ -8,6 +8,7 @@ use std::convert::TryFrom;
 pub const PUBLIC_KEY_LENGTH: usize = 64;
 
 /// Concatenation of X25519 public key (first 32 bytes) and Ed25519 public key (last 32 bytes).
+#[derive(Clone, Debug)]
 pub struct PublicKey {
     /// Ed25519 public key (last 32 bytes)
     pub ed: ed25519_dalek::PublicKey,

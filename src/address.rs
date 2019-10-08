@@ -25,7 +25,7 @@ const U64_SIZE: usize = mem::size_of::<u64>();
 /// - first byte of memory-hard hash is greater than `0x10`
 /// - first byte of address is `0xFF`
 /// - every byte of address is `0x00`
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Address([u8; ADDRESS_LENGTH]);
 
 /// Ad-hoc memory-hard hash function used to derive address from ZeroTier public key.
