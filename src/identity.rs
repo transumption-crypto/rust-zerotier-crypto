@@ -1,8 +1,11 @@
 use crate::{Address, InternalError, PublicKey, SecretKey};
 
 use ed25519_dalek::Keypair;
-use failure::Error;
+use failure::*;
+
 use std::convert::{TryFrom, TryInto};
+use std::fs;
+use std::path::Path;
 
 /// Combination of [`Address`](struct.Address.html), [`PublicKey`](struct.PublicKey) and optionally
 /// [`SecretKey`](struct.SecretKey.html).
@@ -12,10 +15,22 @@ pub struct Identity {
     pub secret_key: Option<SecretKey>,
 }
 
+impl Identity {
+    /// Read ZeroTier identity from given location.
+    pub fn read<P: AsRef<Path>>(path: P) -> Fallible<Self> {
+        Identity::try_from(&fs::read_to_string(path)?[..])
+    }
+
+    /// Read ZeroTier identity from default location.
+    pub fn read_default() -> Fallible<Self> {
+        Identity::read("/var/lib/zerotier-one/identity.secret")
+    }
+}
+
 impl TryFrom<SecretKey> for Identity {
     type Error = Error;
 
-    fn try_from(secret_key: SecretKey) -> Result<Self, Error> {
+    fn try_from(secret_key: SecretKey) -> Fallible<Self> {
         let public_key = PublicKey::from(&secret_key);
 
         Ok(Self {
@@ -30,7 +45,7 @@ impl TryFrom<SecretKey> for Identity {
 impl TryFrom<&str> for Identity {
     type Error = Error;
 
-    fn try_from(identity: &str) -> Result<Self, Error> {
+    fn try_from(identity: &str) -> Fallible<Self> {
         let split_identity: Vec<&str> = identity.split(':').collect();
         let (address, public_key, maybe_secret_key) = match &split_identity[..] {
             [address, "0", public_key] => (address, public_key, None),
@@ -52,7 +67,7 @@ impl TryFrom<&str> for Identity {
 impl TryInto<Keypair> for Identity {
     type Error = Error;
 
-    fn try_into(self) -> Result<Keypair, Error> {
+    fn try_into(self) -> Fallible<Keypair> {
         Ok(Keypair {
             public: self.public_key.ed,
             secret: self.secret_key.unwrap().ed
@@ -65,7 +80,7 @@ pub mod tests {
     use super::*;
 
     #[test]
-    fn test_identity() -> Result<(), Error> {
+    fn test_identity() -> Fallible<()> {
         // nix-shell -p zerotierone --run 'zerotier-idtool generate'
         let identity_str = "538c34e03c:0:070288330a72d2aa3cb7935dfe6028d9fb83bdb42240aaa05e33529121babd183ff775351742a47487454195c08c0e83c520e7466fcdde3396a0c4cd40557737:f20542ab6955fe140fb3a5be9557666b9c89a3e2b73432de46d827d11736773aca15c3e03b89a1d09436ae45bc02f84b8d5a0a2f6c0d42b3856c2b22f5ab2b27";
         let identity = Identity::try_from(identity_str)?;
