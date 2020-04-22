@@ -1,6 +1,3 @@
-#![feature(test)]
-extern crate test;
-
 mod address;
 mod error;
 mod identity;

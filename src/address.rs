@@ -111,20 +111,3 @@ impl TryFrom<&[u8]> for Address {
         }
     }
 }
-
-#[cfg(test)]
-pub mod tests {
-    use super::*;
-
-    #[bench]
-    fn bench_address(b: &mut test::Bencher) -> Result<(), Error> {
-        let public_key_str = "6646f5ae39a001018eb490d2e5dfcdc4ef533124dd88f1c16f5c4028b413d6642518779ca3451a12b53ca0f77821e5c02140da8acac1f92d1b9279c745903e7e";
-        let public_key = PublicKey::try_from(hex::decode(public_key_str)?.as_slice())?;
-
-        b.iter(|| {
-            Address::try_from(&public_key)
-        });
-
-        Ok(())
-    }
-}
