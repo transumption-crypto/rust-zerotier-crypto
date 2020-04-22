@@ -1,7 +1,12 @@
 [package]
 name = "zerotier"
 edition = "2018"
-version = "0.0.0"
+version = "0.1.0"
+
+authors = ["Yegor Timoshenko <yegortimoshenko@riseup.net>"]
+description = "Library for interfacing with ZeroTier"
+license = "Apache-2.0"
+repository = "https://github.com/transumption/zerotier-rust"
 
 [dependencies]
 arrayref = "0.3.5"
