@@ -3,7 +3,7 @@ name = "zerotier"
 edition = "2018"
 version = "0.1.0"
 
-authors = ["Yegor Timoshenko <yegortimoshenko@riseup.net>"]
+authors = ["Yegor Timoshenko <yegortimoshenko@riseup.net>", "zo-el <joelulahanna@gmail.com>"]
 description = "Library for interfacing with ZeroTier"
 license = "Apache-2.0"
 repository = "https://github.com/transumption/zerotier-rust"
@@ -11,10 +11,10 @@ repository = "https://github.com/transumption/zerotier-rust"
 [dependencies]
 arrayref = "0.3.5"
 byteorder = "1.1.0"
-ed25519-dalek = "1.0.0-pre.1"
+ed25519-dalek = "1.0.1"
 failure = "0.1.5"
 hex = "0.4.0"
-salsa20 = "0.2.0"
-serde = { version = "1.0.89", features = ["derive"] }
+salsa20 = "0.5.0"
+serde = { version = "1.0.126", features = ["derive"] }
 sha2 = "0.8.0"
 x25519-dalek = "0.5.2"
