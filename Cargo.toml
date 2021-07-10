@@ -1,7 +1,7 @@
 [package]
 name = "zerotier"
 edition = "2018"
-version = "0.1.0"
+version = "0.2.0"
 
 authors = ["Yegor Timoshenko <yegortimoshenko@riseup.net>", "zo-el <joelulahanna@gmail.com>"]
 description = "Library for interfacing with ZeroTier"
