@@ -1,12 +1,12 @@
 [package]
-name = "zerotier"
+name = "zerotier-api"
 edition = "2018"
-version = "0.2.0"
+version = "0.1.0"
 
-authors = ["Yegor Timoshenko <yegortimoshenko@riseup.net>", "zo-el <joelulahanna@gmail.com>"]
+authors = ["zo-el <joelulahanna@gmail.com>"]
 description = "Library for interfacing with ZeroTier"
 license = "Apache-2.0"
-repository = "https://github.com/transumption/zerotier-rust"
+repository = "https://github.com/zo-el/zerotier-rs"
 
 [dependencies]
 arrayref = "0.3.5"
